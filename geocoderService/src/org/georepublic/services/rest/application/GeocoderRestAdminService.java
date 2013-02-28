@@ -1,7 +1,7 @@
 package org.georepublic.services.rest.application;
 
 import javax.ws.rs.*;
-import org.apache.wink.json4j.JSONObject;
+//import org.apache.wink.json4j.JSONObject;
 
 import org.georepublic.db.DBProc;
 import org.georepublic.beans.*;
