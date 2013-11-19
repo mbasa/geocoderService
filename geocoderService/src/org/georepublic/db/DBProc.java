@@ -17,17 +17,16 @@ public class DBProc {
 		this.dbConn = new DBConn();
 	}
 
-
 	public GeocoderResultBean geocodeAddress( String inAddress ) {
 	    
 	    String sql      = "select * from geocoder(?)";
-	    Connection conn = null;
+	    Connection conn = this.dbConn.getConnection();
 	    
 	    GeocoderResultBean gcb = new GeocoderResultBean();
                       
         try {
-            if( this.dbConn != null ) {
-                conn = this.dbConn.getConnection();
+            if( conn != null ) {
+
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 
                 stmt.setString(1, inAddress);
