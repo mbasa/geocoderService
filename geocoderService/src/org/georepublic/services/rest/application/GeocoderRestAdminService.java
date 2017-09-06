@@ -16,7 +16,7 @@ public class GeocoderRestAdminService {
 	}
 
 	@GET
-	@Produces("application/json")
+	@Produces("application/json; charset=UTF-8")
 	@Path("/json/{address}")
 	public String geocodeJson(@PathParam("address") String inAddr) {
 	    
@@ -54,7 +54,7 @@ public class GeocoderRestAdminService {
 	}
 
     @GET
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     @Path("/geojson/{address}")
     public String geocodeGeoJson(@PathParam("address") String inAddr) {
         
