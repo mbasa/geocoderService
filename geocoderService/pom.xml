@@ -6,6 +6,9 @@
   <packaging>war</packaging>
   <name>Geocoder Service</name>
   <description>A Web Service that calls pgGeocoder</description>
+  <properties>
+      <jettyVersion>9.4.7.v20170914</jettyVersion>
+  </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -30,11 +33,24 @@
         <version>3.0.0</version>
         <configuration>
           <warSourceDirectory>WebContent</warSourceDirectory>
+          <warName>${project.artifactId}</warName>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jettyVersion}</version>
+        <configuration>
+            <war>${project.basedir}/target/${project.build.finalName}</war>
+            <webAppSourceDirectory>${project.basedir}/WebContent</webAppSourceDirectory>
+            <webApp>
+                <contextPath>/geocoderService</contextPath>
+            </webApp>
+        </configuration>
+      </plugin>      
     </plugins>
   </build>
-  <dependencies>
+  <dependencies>  
   	<dependency>
   		<groupId>org.apache.wink</groupId>
   		<artifactId>wink-server</artifactId>

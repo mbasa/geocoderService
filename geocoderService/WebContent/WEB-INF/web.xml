@@ -26,6 +26,7 @@
     <servlet-name>GeocoderRestService</servlet-name>
     <url-pattern>/service/*</url-pattern>
   </servlet-mapping>
+  <!-- 
   <servlet>
     <description>JAX-RS Tools Generated - Do not modify</description>
     <servlet-name>JAX-RS Servlet</servlet-name>
@@ -35,4 +36,5 @@
     <servlet-name>JAX-RS Servlet</servlet-name>
     <url-pattern>/jaxrs/*</url-pattern>
   </servlet-mapping>
+   -->
 </web-app>
