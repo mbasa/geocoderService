@@ -20,11 +20,25 @@ public class GeocoderRestAdminService {
             @PathParam("lon") double lon, @PathParam("lat") double lat) {
 	    
 	    DBProc db  = new DBProc();
-	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat);
+	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, 50);
 	    
 	    return gcb;
 	}
-	
+
+	@GET
+	@Produces("application/json; charset=UTF-8")
+	@Path("/reversegeocode/json/{lon},{lat},{dist}")
+	public GeocoderResultBean revGeocodeDistJson(
+	        @PathParam("lon")  double lon, 
+	        @PathParam("lat")  double lat,
+	        @PathParam("dist") double dist ) {
+
+	    DBProc db  = new DBProc();
+	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, dist);
+
+	    return gcb;
+	}
+
 	@GET
 	@Produces("application/json; charset=UTF-8")
 	@Path("/geocode/json/{address}")
@@ -34,37 +48,6 @@ public class GeocoderRestAdminService {
 	    GeocoderResultBean gcb = db.geocodeAddress(inAddr);
 	    
 	    return gcb;
-
-	    /*
-	    StringBuffer jaddr = new StringBuffer();
-	    
-	    if( gcb != null ) {
-	        jaddr.append("{\"result\":{");
-	        jaddr.append("\"code\":").append(gcb.getCode()).append(",");
-	        
-	        jaddr.append("\"address\":\"").
-	            append(gcb.getnAddress()).append("\",");
-	        jaddr.append("\"todofuken\":\"").
-                append(gcb.getTodofuken()).append("\",");
-	        jaddr.append("\"shikuchoson\":\"").
-                append(gcb.getShikuchoson()).append("\",");
-	        jaddr.append("\"ooaza\":\"").
-                append(gcb.getOoaza()).append("\",");
-	        jaddr.append("\"chiban\":\"").
-                append(gcb.getChiban()).append("\",");
-	        jaddr.append("\"go\":\"").
-                append(gcb.getGo()).append("\",");
-	        jaddr.append("\"coordinates\":{");
-	        jaddr.append("\"x\":").append(gcb.getX()).append(",");
-	        jaddr.append("\"y\":").append(gcb.getY()).append("}");
-	        jaddr.append("},\"status\":\"OK\"}");
-	    }
-	    else {
-	        jaddr.append("{\"result\":{},\"status\":\"NG\"}");
-	    }
-	    
-	    return jaddr.toString();
-	    */
 	}
 
     @GET
