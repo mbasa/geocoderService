@@ -12,7 +12,7 @@
   <servlet>
     <servlet-name>GeocoderRestService</servlet-name>
     <servlet-class>
-        org.apache.wink.server.internal.servlet.RestServlet
+        org.glassfish.jersey.servlet.ServletContainer
     </servlet-class>
     <init-param>
       <param-name>javax.ws.rs.Application</param-name>

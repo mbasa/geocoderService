@@ -1,8 +1,6 @@
 package org.georepublic.services.rest.application;
 
 import javax.ws.rs.*;
-//import org.apache.wink.json4j.JSONObject;
-
 import org.georepublic.db.DBProc;
 import org.georepublic.beans.*;
 
@@ -16,13 +14,28 @@ public class GeocoderRestAdminService {
 	}
 
 	@GET
-	@Produces("application/json; charset=UTF-8")
-	@Path("/json/{address}")
-	public String geocodeJson(@PathParam("address") String inAddr) {
+    @Produces("application/json; charset=UTF-8")
+    @Path("/reversegeocode/json/{lon},{lat}")
+    public GeocoderResultBean revGeocodeJson(
+            @PathParam("lon") double lon, @PathParam("lat") double lat) {
 	    
-	    DBProc db = new DBProc();
-	    GeocoderResultBean gcb = db.geocodeAddress(inAddr);
+	    DBProc db  = new DBProc();
+	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat);
+	    
+	    return gcb;
+	}
+	
+	@GET
+	@Produces("application/json; charset=UTF-8")
+	@Path("/geocode/json/{address}")
+	public GeocoderResultBean geocodeJson(@PathParam("address") String inAddr) {
 
+	    DBProc db  = new DBProc();
+	    GeocoderResultBean gcb = db.geocodeAddress(inAddr);
+	    
+	    return gcb;
+
+	    /*
 	    StringBuffer jaddr = new StringBuffer();
 	    
 	    if( gcb != null ) {
@@ -51,11 +64,12 @@ public class GeocoderRestAdminService {
 	    }
 	    
 	    return jaddr.toString();
+	    */
 	}
 
     @GET
     @Produces("application/json; charset=UTF-8")
-    @Path("/geojson/{address}")
+    @Path("/geocode/geojson/{address}")
     public String geocodeGeoJson(@PathParam("address") String inAddr) {
         
         DBProc db = new DBProc();
@@ -68,7 +82,7 @@ public class GeocoderRestAdminService {
             jaddr.append("\"properties\":{");
             jaddr.append("\"code\":").append(gcb.getCode()).append(",");            
             jaddr.append("\"address\":\"").
-                append(gcb.getnAddress()).append("\",");
+                append(gcb.getAddress()).append("\",");
             jaddr.append("\"todofuken\":\"").
                 append(gcb.getTodofuken()).append("\",");
             jaddr.append("\"shikuchoson\":\"").

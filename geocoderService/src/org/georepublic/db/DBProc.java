@@ -39,7 +39,7 @@ public class DBProc {
                     gcb.setOoaza( rs.getString("ooaza") );
                     gcb.setChiban( rs.getString("chiban") );
                     gcb.setGo( rs.getString("go") );
-                    gcb.setnAddress( rs.getString("address") );
+                    gcb.setAddress( rs.getString("address") );
                     gcb.setX( rs.getDouble("x") );
                     gcb.setY( rs.getDouble("y") );
                 }
@@ -61,5 +61,50 @@ public class DBProc {
 	    return gcb;
 	}
 	
+
+	public GeocoderResultBean reverseGeocode( double mLon, double mLat ) {
+        
+        String sql      = "select * from reverse_geocoder(?::numeric,?::numeric)";
+        Connection conn = this.dbConn.getConnection();
+        
+        GeocoderResultBean gcb = new GeocoderResultBean();
+                      
+        try {
+            if( conn != null ) {
+
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                
+                stmt.setDouble( 1, mLon );
+                stmt.setDouble( 2, mLat );
+                ResultSet rs = stmt.executeQuery();
+                
+                if( rs.next() ) {
+                    gcb.setCode( rs.getInt("code") );
+                    gcb.setTodofuken( rs.getString("todofuken") );
+                    gcb.setShikuchoson( rs.getString("shikuchoson") );
+                    gcb.setOoaza( rs.getString("ooaza") );
+                    gcb.setChiban( rs.getString("chiban") );
+                    gcb.setGo( rs.getString("go") );
+                    gcb.setAddress( rs.getString("address") );
+                    gcb.setX( rs.getDouble("x") );
+                    gcb.setY( rs.getDouble("y") );
+                }
+                rs.close();
+                stmt.close();
+            }
+                
+        }
+        catch( Exception ex ) {
+            ex.printStackTrace();
+        }
+        finally {
+            try {
+                if( conn != null )
+                    conn.close();
+            }
+            catch( Exception e ) {;}
+        }
+        return gcb;
+    }
 
 }
