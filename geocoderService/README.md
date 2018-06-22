@@ -28,15 +28,25 @@ Copy the created WAR file into the [TomcatDir]/webapps directory and start Tomca
 Then edit the properties file for the correct database connection settings.
 
 ### Usage
-For JSON output
+For Geocoder JSON output
 
 ```
-http://localhost:8080/geocoderService/service/json/<Address>
+http://localhost:8080/geocoderService/service/geocode/json/<Address>
 ```
 
-For GeoJSON output
+For Geocoder GeoJSON output
 
 ```
-http://localhost:8080/geocoderService/service/geojson/<Address>
+http://localhost:8080/geocoderService/service/geocode/geojson/<Address>
+```
+
+For Reverse Geocoder JSON output
+
+```
+http://localhost:8080/geocoderService/service/reversegeocode/json/<Lon>,<Lat>
+```
+
+```
+http://localhost:8080/geocoderService/service/reversegeocode/json/<Lon>,<Lat>,<Distance>
 ```
   
