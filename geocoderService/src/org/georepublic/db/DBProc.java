@@ -63,9 +63,11 @@ public class DBProc {
 	
 
 	public GeocoderResultBean reverseGeocode( double mLon, 
-	        double mLat, double mDist ) {
+	        double mLat, double mDist, boolean useAddr,
+	        String category, String owner ) {
         
-        String sql = "select * from reverse_geocoder(?::numeric,?::numeric,?::numeric)";
+        String sql = "select * from reverse_geocoder(?::numeric,?::numeric,?::numeric,"
+                + "?::boolean,?::text,?::text)";
         Connection conn = this.dbConn.getConnection();
         
         GeocoderResultBean gcb = new GeocoderResultBean();
@@ -78,7 +80,10 @@ public class DBProc {
                 stmt.setDouble( 1, mLon  );
                 stmt.setDouble( 2, mLat  );
                 stmt.setDouble( 3, mDist );
-                
+                stmt.setBoolean(4, useAddr);
+                stmt.setString( 5, category);
+                stmt.setString( 6, owner);
+
                 ResultSet rs = stmt.executeQuery();
                 
                 if( rs.next() ) {

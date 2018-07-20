@@ -20,7 +20,8 @@ public class GeocoderRestAdminService {
             @PathParam("lon") double lon, @PathParam("lat") double lat) {
 	    
 	    DBProc db  = new DBProc();
-	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, 50);
+	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, 50, 
+	            true, null, null);
 	    
 	    return gcb;
 	}
@@ -31,10 +32,21 @@ public class GeocoderRestAdminService {
 	public GeocoderResultBean revGeocodeDistJson(
 	        @PathParam("lon")  double lon, 
 	        @PathParam("lat")  double lat,
-	        @PathParam("dist") double dist ) {
-
+	        @PathParam("dist") double dist,
+	        @QueryParam("useaddr" ) @DefaultValue("true") boolean useAddr,
+	        @QueryParam("category") @DefaultValue("") String category,
+	        @QueryParam("owner"   ) @DefaultValue("") String owner){
+	    
+	    category = ( category.equals("") ) ? null:category;
+	    owner    = ( owner.equals("")    ) ? null:owner;
+	    	    
+	    if( category != null || owner != null) {
+	        useAddr = false;
+	    }
+	    
 	    DBProc db  = new DBProc();
-	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, dist);
+	    GeocoderResultBean gcb = db.reverseGeocode(lon, lat, dist, 
+	            useAddr, category, owner );
 
 	    return gcb;
 	}
