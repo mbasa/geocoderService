@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -17,17 +18,19 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName(value = "result")
 
 @JsonPropertyOrder({"code","todofuken","shikuchoson",
-    "ooaza","chiban","go","address","coodinates"})
+    "ooaza","chiban","go","address","coodinates","details"})
 
 public class GeocoderResultBean {
     private int code;
-    private String address          = "";
-    private String todofuken        = "";
-    private String shikuchoson      = "";
-    private String ooaza            = "";
-    private String chiban           = "";
-    private String go               = "";
-    private Coordinates coordinates = new Coordinates();    
+    private String address       = "";
+    private String todofuken     = "";
+    private String shikuchoson   = "";
+    private String ooaza         = "";
+    private String chiban        = "";
+    private String go            = "";
+    private Coordinates coordinates = new Coordinates();
+    @JsonRawValue
+    private String details = "";
     @JsonIgnore 
     private double x = -9999.999;
     @JsonIgnore
@@ -100,6 +103,18 @@ public class GeocoderResultBean {
      */
     public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
+    }
+    /**
+     * @return details を取得する
+     */
+    public String getDetails() {
+        return details;
+    }
+    /**
+     * @param details details を設定する
+     */
+    public void setDetails(String details) {
+        this.details = details;
     }
         
 }
