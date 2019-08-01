@@ -1,5 +1,7 @@
 package org.georepublic.services.rest.application;
 
+import java.util.List;
+
 import javax.ws.rs.*;
 import org.georepublic.db.DBProc;
 import org.georepublic.beans.*;
@@ -51,6 +53,32 @@ public class GeocoderRestAdminService {
 
 	    return gcb;
 	}
+	
+	   @GET
+	    @Produces("application/json; charset=UTF-8")
+	    @Path("/reversegeocode/json_arr/{lon},{lat},{dist}")
+	    public List<GeocoderResultBean> revGeocodeDistJsonArr(
+	            @PathParam("lon")  double lon, 
+	            @PathParam("lat")  double lat,
+	            @PathParam("dist") double dist,
+	            @QueryParam("useaddr" ) @DefaultValue("true")  boolean useAddr,
+	            @QueryParam("details")  @DefaultValue("false") boolean details,
+	            @QueryParam("category") @DefaultValue("") String category,          
+	            @QueryParam("owner"   ) @DefaultValue("") String owner){
+	        
+	        category = ( category.equals("") ) ? null:category;
+	        owner    = ( owner.equals("")    ) ? null:owner;
+	                
+	        if( category != null || owner != null) {
+	            useAddr = false;
+	        }
+	        
+	        DBProc db  = new DBProc();
+	        List<GeocoderResultBean> gcb = db.reverseGeocodeArr(lon, lat, dist, 
+	                useAddr, details, category, owner );
+
+	        return gcb;
+	    }
 
 	@GET
 	@Produces("application/json; charset=UTF-8")
@@ -62,7 +90,8 @@ public class GeocoderRestAdminService {
 	    
 	    return gcb;
 	}
-
+	
+    
     @GET
     @Produces("application/json; charset=UTF-8")
     @Path("/geocode/geojson/{address}")
