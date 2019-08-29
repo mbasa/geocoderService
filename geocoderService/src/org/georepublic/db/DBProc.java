@@ -131,16 +131,16 @@ public class DBProc {
 
 	public List<GeocoderResultBean> reverseGeocodeArr( double mLon, 
             double mLat, double mDist, boolean useAddr, boolean details,
-            String category, String owner ) {
+            String category, String owner, int limit ) {
         
         String sql = "select * from reverse_geocoder(?::numeric,?::numeric,?"
                 + "::numeric,"
-                + "?::boolean,?::text,?::text)";
+                + "?::boolean,?::text,?::text,?::numeric)";
         
         if( details ) {
             sql = "select a.*,details from reverse_geocoder(?::numeric,"
                     + "?::numeric,?::numeric,"
-                    + "?::boolean,?::text,?::text) a, places b "
+                    + "?::boolean,?::text,?::text,?::numeric) a, places b "
                     + "where a.address = b.name";
         }
         
@@ -159,6 +159,7 @@ public class DBProc {
                 stmt.setBoolean(4, useAddr);
                 stmt.setString( 5, category);
                 stmt.setString( 6, owner);
+                stmt.setInt( 7, limit );
                 
                 System.out.print(stmt.toString());
                 

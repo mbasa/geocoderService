@@ -64,7 +64,8 @@ public class GeocoderRestAdminService {
 	            @QueryParam("useaddr" ) @DefaultValue("true")  boolean useAddr,
 	            @QueryParam("details")  @DefaultValue("false") boolean details,
 	            @QueryParam("category") @DefaultValue("") String category,          
-	            @QueryParam("owner"   ) @DefaultValue("") String owner){
+	            @QueryParam("owner"   ) @DefaultValue("") String owner,
+	            @QueryParam("limit" )   @DefaultValue("5") int limit ){
 	        
 	        category = ( category.equals("") ) ? null:category;
 	        owner    = ( owner.equals("")    ) ? null:owner;
@@ -75,7 +76,7 @@ public class GeocoderRestAdminService {
 	        
 	        DBProc db  = new DBProc();
 	        List<GeocoderResultBean> gcb = db.reverseGeocodeArr(lon, lat, dist, 
-	                useAddr, details, category, owner );
+	                useAddr, details, category, owner, limit );
 
 	        return gcb;
 	    }
