@@ -164,4 +164,60 @@ public class CustomRepository {
 
         return gcb ;
     }
+    
+    public Object listTodofuken() {
+        
+        String sql = "with tt as (select todofuken,lat,lon from "
+                + "address_t order by id) "
+                + "select cast(array_to_json(array_agg(tt)) as text) from tt";
+        
+        Object retVal = entityManager.createNativeQuery(sql).getSingleResult();
+        
+        return retVal;
+    }
+    
+    public Object listShikuchoson( String todofuken ) {
+        String sql = "select cast(array_to_json("
+                + "array_agg(address_s order by shikuchoson)) as text) "
+                + "from address_s where todofuken = ?";
+        
+        Object retVal = entityManager.createNativeQuery(sql)
+                .setParameter(1, todofuken)
+                .getSingleResult();
+        
+        return retVal;
+    }
+    
+    public Object listOoaza( String todofuken, String shikuchoson ) {
+        String sql = "with tt as (select todofuken,shikuchoson,ooaza,lat,lon "
+                + "from address_o where todofuken = ? and shikuchoson = ? "
+                + "order by ooaza) select cast(array_to_json(array_agg(tt)) "
+                + "as text) from tt;";
+        
+        Object retVal = entityManager.createNativeQuery(sql)
+                .setParameter(1, todofuken)
+                .setParameter(2, shikuchoson)
+                .getSingleResult();
+        
+        return retVal;
+    }
+    
+    public Object listBanchi( String todofuken, 
+            String shikuchoson,String ooaza ) {
+        
+        String sql = "with tt as (select todofuken,shikuchoson,"
+                + "ooaza,chiban as banchi, lat,lon "
+                + "from address where todofuken = ? and shikuchoson = ? "
+                + "and ooaza = ? order by cast(chiban as numeric)) "
+                + "select cast(array_to_json(array_agg(tt)) "
+                + "as text) from tt;";
+        
+        Object retVal = entityManager.createNativeQuery(sql)
+                .setParameter(1, todofuken)
+                .setParameter(2, shikuchoson)
+                .setParameter(3, ooaza)
+                .getSingleResult();
+        
+        return retVal;
+    }
 }
