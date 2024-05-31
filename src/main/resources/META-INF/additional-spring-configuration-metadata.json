@@ -1,0 +1,7 @@
+{"properties": [
+  {
+    "name": "server.allow.cors",
+    "type": "java.lang.String",
+    "description": "Allow CORS Access"
+  }
+]}
