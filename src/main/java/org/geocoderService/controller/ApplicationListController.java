@@ -92,4 +92,22 @@ public class ApplicationListController {
         
         return sb.toString();        
     }
+
+    @GetMapping(value = "/{todofuken}/{shikuchoson}/{ooaza}/{banchi}", produces = "application/json;charset=UTF-8")
+    public String listGo(
+            @PathVariable @ApiParam(required = true, value = "都道府県") String todofuken,
+            @PathVariable @ApiParam(required = true, value = "市区町村") String shikuchoson,
+            @PathVariable @ApiParam(required = true, value = "大字名") String ooaza,
+            @PathVariable @ApiParam(required = true, value = "番地") String banchi) {
+
+        StringBuffer sb = new StringBuffer();
+        String ret = (String) custRepository.listGo(todofuken,
+                shikuchoson, ooaza, banchi);
+
+        sb.append("{\"result\":");
+        sb.append(ret != null ? ret : "[]");
+        sb.append("}");
+
+        return sb.toString();
+    }
 }

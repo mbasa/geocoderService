@@ -13,9 +13,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.slf4j.LoggerFactory;
 import org.geocoderService.bean.GeocoderResultBean;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +59,30 @@ public class CustomRepository {
 
 
     public GeocoderResultBean reverseGeocode( double mLon, 
+            double mLat, double mDist) {
+
+        String sql = "select * from reverse_geocoder("
+                + "cast(?1 as numeric),cast(?2 as numeric),cast(?3 as numeric))";
+
+        try {
+
+            Object[] result = (Object[]) entityManager.createNativeQuery(sql)
+                    .setParameter(1, mLon)
+                    .setParameter(2, mLat)
+                    .setParameter(3, mDist)
+                    .getSingleResult();
+
+            logger.debug("Result Code:" + result[0]);
+
+            return objToGrb(result);
+        } catch (Exception e) {
+            ;
+        }
+
+        return new GeocoderResultBean();
+    }
+
+    public GeocoderResultBean reverseGeocode(double mLon,
             double mLat, double mDist, boolean useAddr, boolean details,
             String category, String owner ) {
 
@@ -158,17 +182,13 @@ public class CustomRepository {
         if( result[8] != null )
             gcb.setGo((String)result[8]);
 
-        if(result.length > 9 && result[9] != null ) {
-            gcb.setDetails((String)result[9]);
-        }
-
         return gcb ;
     }
     
     public Object listTodofuken() {
         
-        String sql = "with tt as (select todofuken,lat,lon from "
-                + "address_t order by id) "
+        String sql = "with tt as (select code,todofuken,lat,lon from "
+                + "pggeocoder.address_t order by code) "
                 + "select cast(array_to_json(array_agg(tt)) as text) from tt";
         
         Object retVal = entityManager.createNativeQuery(sql).getSingleResult();
@@ -177,9 +197,9 @@ public class CustomRepository {
     }
     
     public Object listShikuchoson( String todofuken ) {
-        String sql = "select cast(array_to_json("
-                + "array_agg(address_s order by shikuchoson)) as text) "
-                + "from address_s where todofuken = ?";
+        String sql = "with tt as (select code,todofuken,shikuchoson,lat,lon "
+                + "from pggeocoder.address_s where todofuken = ? order by code) "
+                + "select cast(array_to_json(array_agg(tt)) as text) from tt";
         
         Object retVal = entityManager.createNativeQuery(sql)
                 .setParameter(1, todofuken)
@@ -189,9 +209,9 @@ public class CustomRepository {
     }
     
     public Object listOoaza( String todofuken, String shikuchoson ) {
-        String sql = "with tt as (select todofuken,shikuchoson,ooaza,lat,lon "
-                + "from address_o where todofuken = ? and shikuchoson = ? "
-                + "order by ooaza) select cast(array_to_json(array_agg(tt)) "
+        String sql = "with tt as (select code,todofuken,shikuchoson,ooaza,lat,lon "
+                + "from pggeocoder.address_o where todofuken = ? and shikuchoson = ? "
+                + "order by code) select cast(array_to_json(array_agg(tt)) "
                 + "as text) from tt;";
         
         Object retVal = entityManager.createNativeQuery(sql)
@@ -207,8 +227,28 @@ public class CustomRepository {
         
         String sql = "with tt as (select todofuken,shikuchoson,"
                 + "ooaza,chiban as banchi, lat,lon "
-                + "from address where todofuken = ? and shikuchoson = ? "
-                + "and ooaza = ? order by cast(chiban as numeric)) "
+                + "from pggeocoder.address_c where todofuken = ? and shikuchoson = ? "
+                + "and ooaza = ? order by chiban::::numeric) "
+                + "select cast(array_to_json(array_agg(tt)) "
+                + "as text) from tt;";
+
+        Object retVal = entityManager.createNativeQuery(sql)
+                .setParameter(1, todofuken)
+                .setParameter(2, shikuchoson)
+                .setParameter(3, ooaza)
+                .getSingleResult();
+
+        return retVal;
+    }
+
+    public Object listGo(String todofuken,
+            String shikuchoson, String ooaza, String banchi) {
+
+        String sql = "with tt as (select todofuken,shikuchoson,"
+                + "ooaza,chiban as banchi, go, lat,lon "
+                + "from pggeocoder.address_g where "
+                + "todofuken = ? and shikuchoson = ? "
+                + "and ooaza = ? and chiban = ? order by chiban::::numeric) "
                 + "select cast(array_to_json(array_agg(tt)) "
                 + "as text) from tt;";
         
@@ -216,6 +256,7 @@ public class CustomRepository {
                 .setParameter(1, todofuken)
                 .setParameter(2, shikuchoson)
                 .setParameter(3, ooaza)
+                .setParameter(4, banchi)
                 .getSingleResult();
         
         return retVal;
