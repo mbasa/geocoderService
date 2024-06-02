@@ -20,7 +20,7 @@ public class GeocoderResultBean {
     private String ooaza         = "";
     private String chiban        = "";
     private String go            = "";
-    private String details       = "";
+
     private CoordinatesBean coordinates = new CoordinatesBean();
     
     /**
@@ -158,19 +158,5 @@ public class GeocoderResultBean {
         return this.coordinates.getY();
     }
     */
-
-    /**
-     * @return details を取得する
-     */
-    public String getDetails() {
-        return details;
-    }
-
-    /**
-     * @param details details を設定する
-     */
-    public void setDetails(String details) {
-        this.details = details;
-    }
 
 }
