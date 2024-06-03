@@ -3,6 +3,9 @@ GeocoderService
 
 Web Service front-end for pgGeocoder
 
+![Alt text](img/screenshot.png?raw=true)
+
+
 ### Build
 Use Maven to create a WAR file by:
 
