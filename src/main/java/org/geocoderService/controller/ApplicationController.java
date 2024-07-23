@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiParam;
+//import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
 
 /**
  * 説明：
@@ -43,7 +44,7 @@ public class ApplicationController {
     @GetMapping(value="/geocode/geojson/{address}",
             produces = "application/json;charset=UTF-8")
     public String geocodeGeoJson(@PathVariable
-            @ApiParam(required=true,value="Address to be Geocoded") String address) {
+    @Parameter(required = true, description = "Address to be Geocoded") String address) {
         
         GeocoderResultBean gcb = custRepository.geocodeAddress(address);
         
@@ -83,7 +84,7 @@ public class ApplicationController {
     @GetMapping(value="/geocode/json/{address}",
             produces = "application/json;charset=UTF-8")
     public Map<String,Object> geocodeJson(@PathVariable
-            @ApiParam(required=true,value="Address to be Geocoded") String address) {
+    @Parameter(required = true, description = "Address to be Geocoded") String address) {
         
         GeocoderResultBean grb = new GeocoderResultBean();
         grb = custRepository.geocodeAddress(address);
@@ -99,8 +100,8 @@ public class ApplicationController {
     @GetMapping(value="/reversegeocode/json/{lon},{lat}",
             produces = "application/json;charset=UTF-8")
     public Map<String,Object> revGeocodeJson(
-            @PathVariable @ApiParam(required=true,value="Longitude") double lon,
-            @PathVariable @ApiParam(required=true,value="Latitude") double lat) {
+            @PathVariable @Parameter(required = true, description = "Longitude") double lon,
+            @PathVariable @Parameter(required = true, description = "Latitude") double lat) {
         
         GeocoderResultBean grb = new GeocoderResultBean();
         grb = custRepository.reverseGeocode(lon, lat, 50);
@@ -116,9 +117,9 @@ public class ApplicationController {
     @GetMapping(value="/reversegeocodeDist/json/{lon},{lat},{dist}",
             produces = "application/json;charset=UTF-8")
     public Map<String,Object> revGeocodeJsonDist(
-            @PathVariable @ApiParam(required=true,value="Longitude") double lon,
-            @PathVariable @ApiParam(required=true,value="Latitude") double lat,
-            @PathVariable @ApiParam(required = true, value = "Distance(m)") double dist
+            @PathVariable @Parameter(required = true, description = "Longitude") double lon,
+            @PathVariable @Parameter(required = true, description = "Latitude") double lat,
+            @PathVariable @Parameter(required = true, description = "Distance(m)") double dist
     // @RequestParam(required=false,defaultValue="true" ) @ApiParam(required=false,example="true" ) boolean useaddr,
     // @RequestParam(required=false,defaultValue="false") @ApiParam(required=false,example="false") boolean details,
     // @RequestParam(required=false) @ApiParam(required=false ) String category,

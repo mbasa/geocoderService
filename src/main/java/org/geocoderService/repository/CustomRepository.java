@@ -11,13 +11,13 @@ package org.geocoderService.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.geocoderService.bean.GeocoderResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import jakarta.persistence.EntityManager;
 
 /**
  * 説明：

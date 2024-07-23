@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
 
 /**
  * 説明：
@@ -46,8 +46,7 @@ public class ApplicationListController {
     }
     
     @GetMapping(value="/{todofuken}",produces = "application/json;charset=UTF-8")
-    public String listShikuchoson(@PathVariable @ApiParam(
-            required=true,value="都道府県")String todofuken) {
+    public String listShikuchoson(@PathVariable @Parameter(required = true, description = "都道府県") String todofuken) {
         
         StringBuffer sb = new StringBuffer();
         String ret = (String) custRepository.listShikuchoson(todofuken);
@@ -62,8 +61,8 @@ public class ApplicationListController {
     @GetMapping(value="/{todofuken}/{shikuchoson}",
             produces = "application/json;charset=UTF-8")
     public String listOoaza(
-            @PathVariable @ApiParam(required=true,value="都道府県")String todofuken,
-            @PathVariable @ApiParam(required=true,value="市区町村")String shikuchoson) {
+            @PathVariable @Parameter(required = true, description = "都道府県") String todofuken,
+            @PathVariable @Parameter(required = true, description = "市区町村") String shikuchoson) {
         
         StringBuffer sb = new StringBuffer();
         String ret = (String) custRepository.listOoaza(todofuken,shikuchoson);
@@ -78,9 +77,9 @@ public class ApplicationListController {
     @GetMapping(value="/{todofuken}/{shikuchoson}/{ooaza}",
             produces = "application/json;charset=UTF-8")
     public String listBanchi(
-            @PathVariable @ApiParam(required=true,value="都道府県")String todofuken,
-            @PathVariable @ApiParam(required=true,value="市区町村")String shikuchoson,
-            @PathVariable @ApiParam(required=true,value="大字名")String ooaza) {
+            @PathVariable @Parameter(required = true, description = "都道府県") String todofuken,
+            @PathVariable @Parameter(required = true, description = "市区町村") String shikuchoson,
+            @PathVariable @Parameter(required = true, description = "大字名") String ooaza) {
         
         StringBuffer sb = new StringBuffer();
         String ret = (String) custRepository.listBanchi(todofuken,
@@ -95,10 +94,10 @@ public class ApplicationListController {
 
     @GetMapping(value = "/{todofuken}/{shikuchoson}/{ooaza}/{banchi}", produces = "application/json;charset=UTF-8")
     public String listGo(
-            @PathVariable @ApiParam(required = true, value = "都道府県") String todofuken,
-            @PathVariable @ApiParam(required = true, value = "市区町村") String shikuchoson,
-            @PathVariable @ApiParam(required = true, value = "大字名") String ooaza,
-            @PathVariable @ApiParam(required = true, value = "番地") String banchi) {
+            @PathVariable @Parameter(required = true, description = "都道府県") String todofuken,
+            @PathVariable @Parameter(required = true, description = "市区町村") String shikuchoson,
+            @PathVariable @Parameter(required = true, description = "大字名") String ooaza,
+            @PathVariable @Parameter(required = true, description = "番地") String banchi) {
 
         StringBuffer sb = new StringBuffer();
         String ret = (String) custRepository.listGo(todofuken,
