@@ -64,7 +64,8 @@ public class ApplicationController {
             jaddr.append("\"chiban\":\"").
                 append(gcb.getChiban()).append("\",");
             jaddr.append("\"go\":\"").
-                append(gcb.getGo()).append("\"},");
+                    append(gcb.getGo()).append("\",");
+            jaddr.append("\"meshcode\":\"").append(gcb.getMeshcode()).append("\"},");
             jaddr.append("\"geometry\":{");
             jaddr.append("\"type\":\"Point\",");
             jaddr.append("\"coordinates\": [");

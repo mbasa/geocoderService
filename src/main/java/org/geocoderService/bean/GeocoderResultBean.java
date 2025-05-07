@@ -20,6 +20,7 @@ public class GeocoderResultBean {
     private String ooaza         = "";
     private String chiban        = "";
     private String go            = "";
+    private String meshcode = "";
 
     private CoordinatesBean coordinates = new CoordinatesBean();
     
@@ -158,5 +159,19 @@ public class GeocoderResultBean {
         return this.coordinates.getY();
     }
     */
+
+    /**
+     * @return meshcode を取得する
+     */
+    public String getMeshcode() {
+        return meshcode;
+    }
+
+    /**
+     * @param meshcode meshcode を設定する
+     */
+    public void setMeshcode(String meshcode) {
+        this.meshcode = meshcode;
+    }
 
 }

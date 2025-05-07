@@ -181,6 +181,8 @@ public class CustomRepository {
             gcb.setChiban((String)result[7]);
         if( result[8] != null )
             gcb.setGo((String)result[8]);
+        if (result[9] != null)
+            gcb.setMeshcode((String) result[9]);
 
         return gcb ;
     }
